@@ -9,8 +9,6 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-
-
 app.get('/', (req, res) => {
     if (!fs.existsSync('./bank.json')) {
         fs.writeFileSync('./bank.json', '[]')
@@ -18,11 +16,6 @@ app.get('/', (req, res) => {
     const buffer = JSON.parse(fs.readFileSync('./bank.json').toString())
     res.status(200).json(buffer)
 })
-
-
-
-
-
 
 app.put('/:email', (req, res) => {
     let buffer = JSON.parse(fs.readFileSync('./bank.json').toString())
@@ -66,10 +59,6 @@ app.post('/', (req, res) => {
     return res.status(201).json(item)
 })
 
-
-
-
-
-app.listen(5000, () => {
-    console.log("listening on port 5000 ");
+app.listen(6000, () => {
+    console.log("listening on port 6000");
 })
