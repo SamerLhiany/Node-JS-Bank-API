@@ -15,6 +15,19 @@ app.get('/', (req, res) => {
 	const buffer = JSON.parse(fs.readFileSync('./bank.json').toString());
 	res.status(200).json(buffer);
 });
+app.get('/:id', (req, res) => {
+	if (!fs.existsSync('./bank.json')) {
+		return res.status(404).send("wrong")
+	}
+	const buffer = JSON.parse(fs.readFileSync('./bank.json').toString());
+	const user=buffer.find(val=>val.id==req.params.id)
+	if(!user){
+		return res.status(404).send("noe found!")
+	}
+	res.status(200).send(user)
+
+});
+
 
 app.put('/:id', (req, res) => {
 	let buffer = JSON.parse(fs.readFileSync('./bank.json').toString());
@@ -23,6 +36,7 @@ app.put('/:id', (req, res) => {
 	if (!user) {
 		return res.status(404).send('user not exists');
 	} else {
+		console.log(req.body);
         user.money=req.body.money||user.money;
         user.credit=req.body.credit||user.credit;
 		fs.writeFileSync('./bank.json', JSON.stringify(buffer));
@@ -31,7 +45,6 @@ app.put('/:id', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-	
 	let buffer = JSON.parse(fs.readFileSync('./bank.json').toString());
 	if (
 		buffer.find((itm) => {
