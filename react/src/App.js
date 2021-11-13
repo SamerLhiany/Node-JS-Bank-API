@@ -5,8 +5,8 @@ import Transferring from './component/transferring';
 function App() {
   return (
     <div className="App">
-      {/* <GetAndAddUser/> */}
-      <Transferring/>
+      <GetAndAddUser/>
+      {/* <Transferring/> */}
       
 
 

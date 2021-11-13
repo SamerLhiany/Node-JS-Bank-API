@@ -1,11 +1,14 @@
 import React from 'react'
+import axios from 'axios';
 
 function Transferring() {
     return (
         <div>
             <br /><br />
-                 <input type="number" placeholder="Transfer by id from" />
-                 <input type="number" placeholder="Transfer by id to" />
+            Transfer From
+                 <input type="number" placeholder="Write user id" />
+            Transfer To
+                 <input type="number" placeholder="Write user id" />
                  <input type="button" value="Transfer" />
                 
         </div>
