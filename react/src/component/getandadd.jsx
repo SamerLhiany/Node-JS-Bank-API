@@ -6,7 +6,8 @@ import axios from 'axios';
     const [user, setUser] = React.useState({
         name: '',
         credit: '',
-        money: ''
+        money: '',
+        passportId:''
     })
 
     React.useEffect(() => {
@@ -19,10 +20,9 @@ import axios from 'axios';
 
     const addUser = () => {
         if(user.name && user.credit && user.money) {
-            console.log(2222);
             axios.post('http://localhost:5000/', user)
                 .then((res) => {
-                    
+                    console.log(res);
                     if (res.status === 201) {
                         console.log(res.data.user)
                         let list = [...users, res.data.user];
@@ -30,33 +30,51 @@ import axios from 'axios';
                     }
                 }).catch((err) => {
                 console.log("error")
+                alert("user exists ")
             })
         }
         else{
             console.log("there is a problem");
+            alert('Please Fill All The Fields')
         }
     }
 
     const textHandler = (e) => {
-        setUser({
-            ...user,
-            [e.target.name]: e.target.value,
-            [e.target.credit]: e.target.value,
-            [e.target.money]: e.target.value
-        })
-        console.log("state :", e.target.value)
+        let usertemp = {...user};
+        usertemp[e.target.name]=e.target.value;
+        setUser(
+            usertemp
+          )
+        console.log(usertemp)
     }
 
      return (
          <div>
+             Search fot user
              <br /><br />
                  <input type="number" placeholder="Write User Id" />
                  <input type="button" value="Search" />
                  <br /><br />
-                 <input type="text" placeholder="name" onChange={textHandler} />
-                 <input type="number" placeholder="credit" onChange={textHandler} />
-                 <input type="number" placeholder="money" onChange={textHandler} />
+                 Add user
+                 <br /><br />
+                 <input type="text" name={"name"} placeholder="name" onChange={textHandler} />
+                 <input type="number" name={"credit"} placeholder="credit" onChange={textHandler} />
+                 <input type="number" name={"money"} placeholder="money" onChange={textHandler} />
+                 <input type="number" name={"passportId"} placeholder="passport id" onChange={textHandler} />
                  <input type="button" value="Add User"  onClick={addUser} />
+                 <br /><br />
+                 Deposit Money for user
+                 <br /><br />
+
+                 <br /><br />
+                 Withdraw Money from user
+                 <br /><br />
+
+                 <br /><br />
+                 Transferring Money from user to user
+                 <br /><br />
+                 
+                 <br /><br />
          </div>
      )
  }

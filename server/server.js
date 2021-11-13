@@ -31,10 +31,11 @@ app.put('/:id', (req, res) => {
 });
 
 app.post('/', (req, res) => {
+	
 	let buffer = JSON.parse(fs.readFileSync('./bank.json').toString());
 	if (
 		buffer.find((itm) => {
-			return req.body.id === itm.id;
+			return parseInt(req.body.id) === itm.id;
 		})
 	) {
 		return res.status(404).send('user exists');
@@ -46,7 +47,7 @@ app.post('/', (req, res) => {
 		name: req.body.name,
 		credit: parseFloat(req.body.credit),
 		money: parseFloat(req.body.money),
-		id: req.body.id
+		id: parseInt(req.body.id)
 	};
 	buffer = [ ...buffer, item ];
 	fs.writeFileSync('./bank.json', JSON.stringify(buffer));
