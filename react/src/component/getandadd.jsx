@@ -53,7 +53,7 @@ import UserDisplay from "./UserDisplay";
             const userTemp=await axios.get('http://localhost:5000/'+user.passportId);
             axios.put('http://localhost:5000/'+user.passportId, {money:Number(user.money)+Number(userTemp.data.money)})
                 .then((res) => {
-                   console.log(res.data);
+                    setUsersDisplay(userDisplay?res.data:false);
                     if (res.status === 201) {
                         let list = [...users, res.data.user];
                         setUsers(list);
@@ -70,17 +70,39 @@ import UserDisplay from "./UserDisplay";
     }
     catch(err){
         console.log("err");
-        alert("user not exists")
+        alert("user does not exist")
     }
     }
 
     const userSearch = async() => {
-        console.log(user.passportId);
+        try {
         if(user.passportId) {
             const userTemp=await axios.get('http://localhost:5000/'+user.passportId);
-            setUsersDisplay(userTemp.data)
-               
+            setUsersDisplay(userTemp.data)   
+        }}
+        catch{alert("user does not exist")}
+    }
+
+    const WithdrawMoney = async () => {
+        try{
+            const userTemp=await axios.get('http://localhost:5000/'+user.passportId);
+            if(userTemp.data.credit+userTemp.data.money>=user.money){
+                const u=await axios.put('http://localhost:5000/'+user.passportId,{money:userTemp.data.money-user.money})
+                setUsersDisplay(userDisplay?u.data:false);
+
+            }
+            else{
+                throw("not enough");
+            }
         }
+        catch (err){
+            alert(err||"error")
+        }
+
+    }
+
+    const TransferMoney = () => {
+
     }
 
      return (
@@ -109,11 +131,17 @@ import UserDisplay from "./UserDisplay";
                  <br /><br />
                  <input type="number" name={"passportId"} placeholder="passport id" onChange={textHandler} />
                  <input type="number" name={"money"} placeholder="Deposit Cash" onChange={textHandler} />
-                 <input type="button" value="Add Cash"  onClick={addCash} />
+                 <input type="button" value="Withdraw money"  onClick={WithdrawMoney} />
                  <br /><br />
                  Transferring Money from user to user
                  <br /><br />
-
+                 From
+                 <input type="number" name={"passportId"} placeholder="passport id" onChange={textHandler} />
+                 TO
+                 <input type="number" name={"passportId"} placeholder="passport id" onChange={textHandler} />
+                 How Much
+                 <input type="number" name={"money"} placeholder="Write a number" onChange={textHandler} />
+                 <input type="button" value="Transfer money"  onClick={TransferMoney} />   
                  <br /><br />
          </div>
      )
