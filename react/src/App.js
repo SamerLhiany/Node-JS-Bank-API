@@ -1,10 +1,14 @@
 import './App.css';
 import GetAndAddUser from './component/getandadd';
+import Transferring from './component/transferring';
 
 function App() {
   return (
     <div className="App">
-      <GetAndAddUser/>
+      {/* <GetAndAddUser/> */}
+      <Transferring/>
+      
+
 
     </div>
   );
